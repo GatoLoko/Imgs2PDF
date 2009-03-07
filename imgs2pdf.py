@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-"""Usage: img2pdf [OPTION...] DIRECTORY
+"""Usage: img2pdf [OPTIONS...]
 
   -c, --compress             Enables PDF text compression
   -h, --help                 Shows this help
