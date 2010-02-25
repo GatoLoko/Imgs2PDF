@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-"""Usage: imgs2pdf [OPTIONS...]
+'''Usage: imgs2pdf [OPTIONS...]
 
   -c, --compress             Enables PDF text compression
   -h, --help                 Shows this help
@@ -26,10 +26,10 @@
                              This can be faster, but generates bigger
                              files and may cause problems
   -o NAME, --output=NAME     Sets the name of the generated PDF 
-  -r, --resize               Resize the pictores to fit in A4 page size
+  -r, --resize               Resize the pictures to fit in A4 page size
   -t TITLE, --title=TITLE    Sets the PDF title
   -v, --version              Shows imgs2pdf version
-"""
+'''
 
 from __future__ import division
 import os
@@ -40,10 +40,10 @@ from reportlab.pdfgen import canvas
 
 __VERSION__ = "1.1"
 EXTENSIONES = [ ".jpg", ".gif", ".png", ".JPG", ".GIF", ".PNG" ]
-#RESOLUCIONPDF = [595, 842]
+# Reportlab A4 pages have a ridiculously small resolution of 595h x 842v
 ANCHOPDF = 595
 ALTOPDF = 842
-A4 = False
+RESIZEA4 = False
 COMPRESION = 0
 INLINE = 0
 TITULO = "Titulo"
@@ -74,7 +74,8 @@ def listaimagenes():
 
 
 def main():
-    global A4, TITULO, SALIDA, COMPRESION, INLINE
+    """Script main function."""
+    global RESIZEA4, TITULO, SALIDA, COMPRESION, INLINE
     try:
         opcs, args = getopt.getopt(argv[1:], "chio:rt:v", ["compress", \
                 "help", "inline", "output=", "resize", "title=", \
@@ -94,7 +95,7 @@ def main():
         elif opc in ("-o", "--output"):
             SALIDA = arg
         elif opc in ("-r", "--resize"):
-            A4 = True
+            RESIZEA4 = True
         elif opc in ("-t", "--title"):
             TITULO = arg
         elif opc in ("-v", "--version"):
@@ -107,7 +108,7 @@ def main():
     pdf.setPageCompression(COMPRESION)
 
     for imagen in imagenes:
-        if A4 is True:
+        if RESIZEA4 is True:
             # Resize, align and print the picture in the A4 page
             print "Proccesing %s" % imagen
             # Resizing
