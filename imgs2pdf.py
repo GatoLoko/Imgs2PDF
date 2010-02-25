@@ -58,7 +58,7 @@ def redimensiona(imagen):
         factor = ALTOPDF / alto
     else:
         factor = ANCHOPDF / ancho
-    print "A %s resizing factor will be aplied to %s" % (factor, imagen)
+    print("A %s resizing factor will be aplied to %s" % (factor, imagen))
     # Resizing modes: NEAREST, BILINEAR, BICUBIC, ANTIALIAS
     return imagenorig.resize((int(ancho * factor), int(alto * factor)), \
             Image.NEAREST)
@@ -81,14 +81,14 @@ def main():
                 "help", "inline", "output=", "resize", "title=", \
                 "version"])
     except getopt.GetoptError:
-        print __doc__
+        print(__doc__)
         exit(2)
 
     for opc, arg in opcs:
         if opc in ("-c", "--compress"):
             COMPRESION = 1
         elif opc in ("-h", "--help"):
-            print __doc__
+            print(__doc__)
             exit(1)
         elif opc in ("-i", "--inline"):
             INLINE = 1
@@ -110,7 +110,7 @@ def main():
     for imagen in imagenes:
         if RESIZEA4 is True:
             # Resize, align and print the picture in the A4 page
-            print "Proccesing %s" % imagen
+            print("Proccesing %s" % imagen)
             # Resizing
             imagenpdf = redimensiona(imagen)
             # Calculate the page margins to center the picture
@@ -125,11 +125,11 @@ def main():
                         margenvert, preserveAspectRatio=True)
         else:
             # Resize each page to fit the image size
-            print "Proccesing %s" % imagen
+            print("Proccesing %s" % imagen)
             # Open the image
             imagenorig = Image.open(imagen)
             # Resize the page
-            print imagenorig.size
+            print(imagenorig.size)
             pdf.setPageSize(imagenorig.size)
             # Draw the original image in the current page
             if INLINE == 0:
