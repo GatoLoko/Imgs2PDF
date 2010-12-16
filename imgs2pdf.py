@@ -20,16 +20,17 @@
 
 '''Usage: imgs2pdf [OPTIONS...]
 
-  -c, --compress               Enables PDF text compression
-  -h, --help                   Shows this help
+  -c, --compress               Enables PDF text compression.
+  -d, --debug                  Shows debug information.
+  -h, --help                   Shows this help.
   -i, --inline                 Use "inline" images instead of "external".
                                This can be faster, but generates bigger
-                               files and may cause problems
-  -o NAME, --output=NAME       Sets the name of the generated PDF 
-  -r, --resize                 Resize the pictures to fit in A4 page size
-  -R DEGREE, --rotate=DEGREE   Rotate the pictures 
-  -t TITLE, --title=TITLE      Sets the PDF title
-  -v, --version                Shows imgs2pdf version
+                               files and may cause problems.
+  -o NAME, --output=NAME       Sets the name of the generated PDF.
+  -r, --resize                 Resize the pictures to fit in A4 page size.
+  -R DEGREE, --rotate=DEGREE   Rotate the pictures X degrees counterclockwise.
+  -t TITLE, --title=TITLE      Sets the PDF title.
+  -v, --version                Shows imgs2pdf version.
 '''
 
 from __future__ import division
@@ -38,18 +39,21 @@ from sys import argv, exit
 import getopt
 from PIL import Image
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
 
-__VERSION__ = "1.2"
+__VERSION__ = "1.2.1"
 EXTENSIONES = [ ".jpg", ".gif", ".png", ".JPG", ".GIF", ".PNG" ]
 # Reportlab A4 pages have a ridiculously small resolution of 595w x 842h
-ANCHOPDF = 595
-ALTOPDF = 842
+ANCHOPDF, ALTOPDF = A4
+#ANCHOPDF = 595
+#ALTOPDF = 842
 RESIZEA4 = False
 COMPRESION = 0
 INLINE = 0
 TITULO = "Titulo"
 SALIDA = "salida.pdf"
 DEGREE = 0
+DEBUG = 0
 
 
 def redimensiona(imagen):
@@ -77,10 +81,10 @@ def listaimagenes():
 
 def main():
     """Script main function."""
-    global RESIZEA4, TITULO, SALIDA, COMPRESION, INLINE, DEGREE
+    global RESIZEA4, TITULO, SALIDA, COMPRESION, INLINE, DEGREE, DEBUG
     try:
-        opcs, args = getopt.getopt(argv[1:], "chio:rR:t:v", ["compress", \
-                "help", "inline", "output=", "resize", "rotate=","title=", \
+        opcs, args = getopt.getopt(argv[1:], "cdhio:rR:t:v", ["compress", \
+                "debug", "help", "inline", "output=", "resize", "rotate=","title=", \
                 "version"])
     except getopt.GetoptError:
         print(__doc__)
@@ -89,6 +93,11 @@ def main():
     for opc, arg in opcs:
         if opc in ("-c", "--compress"):
             COMPRESION = 1
+        elif opc in ("-d", "--debug"):
+            DEBUG = 1
+            import sys
+            import gc
+            from guppy import hpy
         elif opc in ("-h", "--help"):
             print(__doc__)
             exit(1)
@@ -149,6 +158,9 @@ def main():
             else:
                 pdf.drawInlineImage(canvas.ImageReader(imagefile), \
                         0, 0, preserveAspectRatio=True)
+        if DEBUG == 1:
+            print sum([sys.getsizeof(o) for o in gc.get_objects()])
+            print hpy().heap()
         # Close the current page and create a new one
         pdf.showPage()
     # Cerramos el PDF
