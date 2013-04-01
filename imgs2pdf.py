@@ -20,12 +20,10 @@
 
 '''Usage: imgs2pdf [OPTIONS...]
 
-  -c, --compress               Enables PDF text compression.
   -d, --debug                  Shows debug information.
   -h, --help                   Shows this help.
   -o NAME, --output=NAME       Sets the name of the generated PDF.
   -r, --resize                 Resize the pictures to fit in A4 page size.
-  -R DEGREE, --rotate=DEGREE   Rotate the pictures X degrees counterclockwise.
   -t TITLE, --title=TITLE      Sets the PDF title.
   -v, --version                Shows imgs2pdf version.
 '''
@@ -45,10 +43,8 @@ ANCHOPDF, ALTOPDF = A4
 #ANCHOPDF = 595
 #ALTOPDF = 842
 RESIZEA4 = False
-COMPRESION = 0
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
-DEGREE = 0
 DEBUG = 0
 
 
@@ -80,16 +76,13 @@ def main():
     """Script main function."""
     global RESIZEA4, TITULO, SALIDA, COMPRESION, DEGREE, DEBUG
     try:
-        opcs, args = getopt.getopt(argv[1:], "cdho:rR:t:v", ["compress",
-            "debug", "help", "output=", "resize", "rotate=", "title=",
-            "version"])
+        opcs, args = getopt.getopt(argv[1:], "cdho:r:t:v", ["compress",
+            "debug", "help", "output=", "resize", "title=", "version"])
     except getopt.GetoptError:
         print(__doc__)
         exit(2)
 
     for opc, arg in opcs:
-        if opc in ("-c", "--compress"):
-            COMPRESION = 1
         elif opc in ("-d", "--debug"):
             DEBUG = 1
             import sys
@@ -102,8 +95,6 @@ def main():
             SALIDA = arg
         elif opc in ("-r", "--resize"):
             RESIZEA4 = True
-        elif opc in ("-R", "--rotate"):
-            DEGREE = int(arg)
         elif opc in ("-t", "--title"):
             TITULO = arg
         elif opc in ("-v", "--version"):
@@ -113,17 +104,11 @@ def main():
     imagenes = listaimagenes()
     pdf = canvas.Canvas(SALIDA)
     pdf.setTitle(TITULO)
-    pdf.setPageCompression(COMPRESION)
 
     for imagen in imagenes:
         print("Proccesing %s" % imagen)
         # Open the image file
         imagefile = Image.open(imagen)
-
-        # If a rotation is indicated, rotate the image
-        if DEGREE != 0:
-            print("    Rotating %s degrees" % str(DEGREE))
-            imagefile = imagefile.rotate(DEGREE, expand=1)
 
         if RESIZEA4 is True:
             # Resize, align and print the picture in the A4 page
