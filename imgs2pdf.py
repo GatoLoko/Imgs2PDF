@@ -23,9 +23,6 @@
   -c, --compress               Enables PDF text compression.
   -d, --debug                  Shows debug information.
   -h, --help                   Shows this help.
-  -i, --inline                 Use "inline" images instead of "external".
-                               This can be faster, but generates bigger
-                               files and may cause problems.
   -o NAME, --output=NAME       Sets the name of the generated PDF.
   -r, --resize                 Resize the pictures to fit in A4 page size.
   -R DEGREE, --rotate=DEGREE   Rotate the pictures X degrees counterclockwise.
@@ -49,7 +46,6 @@ ANCHOPDF, ALTOPDF = A4
 #ALTOPDF = 842
 RESIZEA4 = False
 COMPRESION = 0
-INLINE = 0
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
 DEGREE = 0
@@ -82,11 +78,11 @@ def listaimagenes():
 
 def main():
     """Script main function."""
-    global RESIZEA4, TITULO, SALIDA, COMPRESION, INLINE, DEGREE, DEBUG
+    global RESIZEA4, TITULO, SALIDA, COMPRESION, DEGREE, DEBUG
     try:
-        opcs, args = getopt.getopt(argv[1:], "cdhio:rR:t:v", ["compress", \
-                "debug", "help", "inline", "output=", "resize", "rotate=","title=", \
-                "version"])
+        opcs, args = getopt.getopt(argv[1:], "cdho:rR:t:v", ["compress",
+            "debug", "help", "output=", "resize", "rotate=", "title=",
+            "version"])
     except getopt.GetoptError:
         print(__doc__)
         exit(2)
@@ -102,8 +98,6 @@ def main():
         elif opc in ("-h", "--help"):
             print(__doc__)
             exit(1)
-        elif opc in ("-i", "--inline"):
-            INLINE = 1
         elif opc in ("-o", "--output"):
             SALIDA = arg
         elif opc in ("-r", "--resize"):
@@ -139,26 +133,17 @@ def main():
             margenhoriz = (ANCHOPDF - imagenpdf.size[0]) / 2
             margenvert = (ALTOPDF - imagenpdf.size[1]) / 2
             # Draw the picture centered in the current page
-            if INLINE == 0:
-                pdf.drawImage(canvas.ImageReader(imagenpdf), \
-                        margenhoriz, margenvert, \
-                        preserveAspectRatio=True, anchor='c')
-            else:
-                pdf.drawInlineImage(canvas.ImageReader(imagenpdf), \
-                        margenhoriz, margenvert, \
-                        preserveAspectRatio=True, anchor='c')
+            pdf.drawImage(canvas.ImageReader(imagenpdf), margenhoriz,
+                margenvert, preserveAspectRatio=True, anchor='c')
         else:
             # Resize each page to fit the image size
             # Resize the page
-            print("    Resizing page to %s width and %s height" % imagefile.size)
+            print("    Resizing page to %s width and %s height"
+                % imagefile.size)
             pdf.setPageSize(imagefile.size)
             # Draw the original image in the current page
-            if INLINE == 0:
-                pdf.drawImage(canvas.ImageReader(imagefile), 0, 0, \
-                        preserveAspectRatio=True)
-            else:
-                pdf.drawInlineImage(canvas.ImageReader(imagefile), \
-                        0, 0, preserveAspectRatio=True)
+            pdf.drawImage(canvas.ImageReader(imagefile), 0, 0,
+                preserveAspectRatio=True)
         if DEBUG == 1:
             print sum([sys.getsizeof(o) for o in gc.get_objects()])
             print hpy().heap()
