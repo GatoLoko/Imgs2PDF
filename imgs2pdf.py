@@ -50,8 +50,8 @@ ANCHOPDF, ALTOPDF = A4
 RESIZEA4 = False
 COMPRESION = 0
 INLINE = 0
-TITULO = "Titulo"
-SALIDA = "salida.pdf"
+TITULO = os.path.split(os.getcwd())[-1]
+SALIDA = "".join([TITULO, ".pdf"])
 DEGREE = 0
 DEBUG = 0
 
