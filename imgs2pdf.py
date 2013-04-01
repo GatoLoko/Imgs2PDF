@@ -66,7 +66,6 @@ def main():
             DEBUG = 1
             import sys
             import gc
-            from guppy import hpy
         elif opc in ("-h", "--help"):
             print(__doc__)
             exit(1)
@@ -94,7 +93,6 @@ def main():
             preserveAspectRatio=True)
         if DEBUG == 1:
             print sum([sys.getsizeof(o) for o in gc.get_objects()])
-            print hpy().heap()
         # Close the current page and create a new one
         pdf.showPage()
     # Cerramos el PDF
