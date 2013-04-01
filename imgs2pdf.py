@@ -23,7 +23,6 @@
   -d, --debug                  Shows debug information.
   -h, --help                   Shows this help.
   -o NAME, --output=NAME       Sets the name of the generated PDF.
-  -r, --resize                 Resize the pictures to fit in A4 page size.
   -t TITLE, --title=TITLE      Sets the PDF title.
   -v, --version                Shows imgs2pdf version.
 '''
@@ -34,32 +33,12 @@ from sys import argv, exit
 import getopt
 from PIL import Image
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
 
 __VERSION__ = "1.2.1"
 EXTENSIONES = [".jpg", ".gif", ".png", ".JPG", ".GIF", ".PNG"]
-# Reportlab A4 pages have a ridiculously small resolution of 595w x 842h
-ANCHOPDF, ALTOPDF = A4
-#ANCHOPDF = 595
-#ALTOPDF = 842
-RESIZEA4 = False
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
 DEBUG = 0
-
-
-def redimensiona(imagen):
-    """Return an scaled copy of the supplied image."""
-    ancho, alto = imagen.size
-    if (alto / ancho) > (ALTOPDF / ANCHOPDF):
-        factor = ALTOPDF / alto
-    else:
-        factor = ANCHOPDF / ancho
-    print("    Applying a resizing factor of %s" % factor)
-    imagen = imagen.resize((int(ancho * factor), int(alto * factor)), \
-                            Image.NEAREST)
-    # Resizing modes: NEAREST, BILINEAR, BICUBIC, ANTIALIAS
-    return imagen
 
 
 def listaimagenes():
@@ -74,16 +53,16 @@ def listaimagenes():
 
 def main():
     """Script main function."""
-    global RESIZEA4, TITULO, SALIDA, COMPRESION, DEGREE, DEBUG
+    global TITULO, SALIDA, DEBUG
     try:
-        opcs, args = getopt.getopt(argv[1:], "cdho:r:t:v", ["compress",
-            "debug", "help", "output=", "resize", "title=", "version"])
+        opcs, args = getopt.getopt(argv[1:], "cdho:t:v", ["debug", "help",
+            "output=", "title=", "version"])
     except getopt.GetoptError:
         print(__doc__)
         exit(2)
 
     for opc, arg in opcs:
-        elif opc in ("-d", "--debug"):
+        if opc in ("-d", "--debug"):
             DEBUG = 1
             import sys
             import gc
@@ -93,8 +72,6 @@ def main():
             exit(1)
         elif opc in ("-o", "--output"):
             SALIDA = arg
-        elif opc in ("-r", "--resize"):
-            RESIZEA4 = True
         elif opc in ("-t", "--title"):
             TITULO = arg
         elif opc in ("-v", "--version"):
@@ -109,26 +86,12 @@ def main():
         print("Proccesing %s" % imagen)
         # Open the image file
         imagefile = Image.open(imagen)
-
-        if RESIZEA4 is True:
-            # Resize, align and print the picture in the A4 page
-            # Resizing
-            imagenpdf = redimensiona(imagefile)
-            # Calculate the page margins to center the picture
-            margenhoriz = (ANCHOPDF - imagenpdf.size[0]) / 2
-            margenvert = (ALTOPDF - imagenpdf.size[1]) / 2
-            # Draw the picture centered in the current page
-            pdf.drawImage(canvas.ImageReader(imagenpdf), margenhoriz,
-                margenvert, preserveAspectRatio=True, anchor='c')
-        else:
-            # Resize each page to fit the image size
-            # Resize the page
-            print("    Resizing page to %s width and %s height"
-                % imagefile.size)
-            pdf.setPageSize(imagefile.size)
-            # Draw the original image in the current page
-            pdf.drawImage(canvas.ImageReader(imagefile), 0, 0,
-                preserveAspectRatio=True)
+        # Resize each page to fit the image size
+        print("    Resizing page to %s width and %s height" % imagefile.size)
+        pdf.setPageSize(imagefile.size)
+        # Draw the image in the current page
+        pdf.drawImage(canvas.ImageReader(imagen), 0, 0,
+            preserveAspectRatio=True)
         if DEBUG == 1:
             print sum([sys.getsizeof(o) for o in gc.get_objects()])
             print hpy().heap()
