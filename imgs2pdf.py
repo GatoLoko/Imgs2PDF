@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
-#       
+#
 # Copyright 2009, 2010 Raul Soriano <GatoLoko@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-#       
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#       
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -42,7 +42,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
 __VERSION__ = "1.2.1"
-EXTENSIONES = [ ".jpg", ".gif", ".png", ".JPG", ".GIF", ".PNG" ]
+EXTENSIONES = [".jpg", ".gif", ".png", ".JPG", ".GIF", ".PNG"]
 # Reportlab A4 pages have a ridiculously small resolution of 595w x 842h
 ANCHOPDF, ALTOPDF = A4
 #ANCHOPDF = 595
@@ -68,6 +68,7 @@ def redimensiona(imagen):
                             Image.NEAREST)
     # Resizing modes: NEAREST, BILINEAR, BICUBIC, ANTIALIAS
     return imagen
+
 
 def listaimagenes():
     """Return a list of image files from the working directory."""
@@ -129,7 +130,7 @@ def main():
         if DEGREE != 0:
             print("    Rotating %s degrees" % str(DEGREE))
             imagefile = imagefile.rotate(DEGREE, expand=1)
-            
+
         if RESIZEA4 is True:
             # Resize, align and print the picture in the A4 page
             # Resizing
