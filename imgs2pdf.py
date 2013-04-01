@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: UTF8 -*-
 #
-# Copyright 2009, 2010 Raul Soriano <GatoLoko@gmail.com>
+# Copyright 2009, 2013 Raul Soriano <GatoLoko@gmail.com>
 #
-# This program is free software; you can redistribute it and/or modify
+# Imgs2PDF is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful,
+# Imgs2PDF is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
@@ -18,7 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-'''Usage: imgs2pdf [OPTIONS...]
+'''
+Usage: imgs2pdf [OPTIONS...]
 
   -d, --debug                  Shows debug information.
   -h, --help                   Shows this help.
@@ -27,14 +28,13 @@
   -v, --version                Shows imgs2pdf version.
 '''
 
-from __future__ import division
 import os
 from sys import argv, exit
 import getopt
 from PIL import Image
 from reportlab.pdfgen import canvas
 
-__VERSION__ = "1.2.1"
+__VERSION__ = "2.0"
 EXTENSIONES = [".jpg", ".gif", ".png", ".JPG", ".GIF", ".PNG"]
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
