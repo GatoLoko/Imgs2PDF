@@ -46,10 +46,11 @@ imgs2pdf -o imgs2pdf.pdf". This way both of them will look and convert
 every file, and have a given name for the output instead of choosing by
 thenselves.
 
-  Command  |  Real   |  User   |   Sys   |  PDF size  | PDF Version
- :--------:|:-------:|:-------:|:-------:|:----------:|:-----------:
-  convert  | 36.857s | 23.405s | 03.296s | 122743140B |     1.3
-  imgs2pdf | 21.816s | 15.333s | 01.256s | 151316617B |     1.3
+           |   Real  |   User  |   Sys   |            |   PDF
+  Command  |   time  |   time  |   time  |  PDF size  | version
+ :--------:|:-------:|:-------:|:-------:|:----------:|:--------:
+  convert  | 36.857s | 23.405s | 03.296s | 122743140B |   1.3
+  imgs2pdf | 21.816s | 15.333s | 01.256s | 151316617B |   1.3
 
 
 So, surprisingly, Imgs2PDF is actually faster than convert, but outputs
