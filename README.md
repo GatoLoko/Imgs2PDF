@@ -60,14 +60,22 @@ bigger files.
 ImageMagic's generated PDFs are smaller because it converts non JPEG
 files to JPEG.
 
-PNGs are usually larger than JPEG because they use a
-lossless compresion, while JPEG uses a lossy compresion. This means,
-even in the best case, that ImageMagic is lossing image quality for
-each single non JPEG file.
+Even with difital formats, all conversion imply some kind of data loss,
+so even in the best case, ImageMagic is losing some quality for each non
+JPEG file.
+
+What's more, some formats like PNGs are usually larger than JPEG because
+they use a lossless compresion, while JPEG uses a lossy compresion. In
+this cases, ImageMagic may be lossing a lot of image quality for a
+single PNG file. Imagine a diagram or technical drawing with lines as
+thin as a single pixel. While PNG stores a flawless copy of that
+diagram, JPEG isn't mean for thoose cases, and even at it's best quality
+would store an incomplete, and may be invalid, copy of the image.
 
 Imgs2PDF uses PDF Image Xobjects (supported at least since PDF 1.2) to
-store non JPEG files. In this PNG case, it stores an identical copy of
-the original PNG file without losing quality.
+store non JPEG files. In this PNG case, it stores a copy of the actual
+PNG file, without altering it in any form, thus producing a bigger size,
+but at the same time higher quality output.
 
 ## Summarizing
 
