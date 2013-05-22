@@ -8,7 +8,7 @@ image files.
 ## Why I started Imgs2PDF instead of using ImageMagic's convert?
 
 At the time I started Imgs2PDF, convert had a bug that made it use LOTS
-of ram.
+of RAM.
 
 I hit it when doing a "convert *.jpg output.pdf" on a folder with a
 total of ~50MB and files between 150-500KB. I didn't know about this
@@ -20,21 +20,22 @@ system with just 2GB of RAM, that means it was using 1.5GB of SWAP...
 And kept growing!
 
 For some reason, convert was opening each file, converting them to
-bitmap, and storing all those bitmaps in ram before even trying to
+bitmap, and storing all those bitmaps in RAM before even trying to
 start writing the output PDF. A 640x480 with 32bit color image in JPEG
 format may take around 40-50KB, the same image in bitmap format takes
 1200KB. That's 26,6 times more!
 
-A quick calculation (not acurate) gives that my ~50MB of image would
-take ~1330MB as bitmaps, but convert was using more than two times that!
+A quick (inaccurate) calculation gives that my ~50MB of image would take
+around 1330MB as bitmaps, but convert was using more than two times
+that!
 
 So I made a quick and hackish script to do the same conversion and see
 if there was any difference, and my script did the work using less than
-100MB of ram and A LOT FASTER!
+100MB of RAM and A LOT FASTER!
 
 ## Relative performance
 
-Since ImageMagic's convert is a compiled binary program writen in C,
+Since ImageMagic's convert is a compiled binary program written in C,
 the sane thing would be to think it is a lot faster than Imgs2PDF's
 interpreted code, but in my tests they are mostly the same thing, and
 most times Imgs2PDF is faster.
@@ -44,7 +45,7 @@ and PNG files ranging from 43KB up to 2,1MB for a combined size of
 113MB. The commands used are "time convert * convert.pdf" and "time
 imgs2pdf -o imgs2pdf.pdf". This way both of them will look and convert
 every file, and have a given name for the output instead of choosing by
-thenselves.
+themselves.
 
   Command  |  Real   |  User   |   Sys   |  PDF size  | PDF Version
  :--------:|:-------:|:-------:|:-------:|:----------:|:-----------:
@@ -60,22 +61,23 @@ bigger files.
 ImageMagic's generated PDFs are smaller because it converts non JPEG
 files to JPEG.
 
-Even with difital formats, all conversion imply some kind of data loss,
-so even in the best case, ImageMagic is losing some quality for each non
-JPEG file.
+Even with digital formats, any conversion involves some kind of quality
+loss, so even in the best case, ImageMagic is losing some quality for
+each non JPEG file.
 
-What's more, some formats like PNGs are usually larger than JPEG because
-they use a lossless compresion, while JPEG uses a lossy compresion. In
-this cases, ImageMagic may be lossing a lot of image quality for a
-single PNG file. Imagine a diagram or technical drawing with lines as
-thin as a single pixel. While PNG stores a flawless copy of that
-diagram, JPEG isn't mean for thoose cases, and even at it's best quality
-would store an incomplete, and may be invalid, copy of the image.
+What's more, some formats like PNGs are usually larger than JPEG
+because they use a lossless compression, while JPEG uses a lossy
+compression. In this cases, ImageMagic may be losing a lot of image
+quality for a single PNG file. Imagine a diagram or technical drawing
+with lines as thin as a single pixel. While PNG stores a flawless copy
+of that diagram, JPEG isn't mean for those cases, and even at it's best
+quality would store an incomplete, and may be invalid, copy of the
+image.
 
 Imgs2PDF uses PDF Image Xobjects (supported at least since PDF 1.2) to
 store non JPEG files. In this PNG case, it stores a copy of the actual
-PNG file, without altering it in any form, thus producing a bigger size,
-but at the same time higher quality output.
+PNG file, without altering it in any form, thus producing a bigger
+size, but at the same time higher quality output.
 
 ## Summarizing
 
