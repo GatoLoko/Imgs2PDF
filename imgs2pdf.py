@@ -55,8 +55,9 @@ def main():
     """Script main function."""
     global TITULO, SALIDA, DEBUG
     try:
-        opcs, args = getopt.getopt(argv[1:], "cdho:t:v", ["debug", "help",
-                                   "output=", "title=", "version"])
+        opcs, args = getopt.getopt(argv[1:], "cdho:t:v",
+                                   ["debug", "help", "output=", "title=",
+                                    "version"])
     except getopt.GetoptError:
         print(__doc__)
         exit(2)
