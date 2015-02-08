@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-'''
+"""
 Usage: imgs2pdf [OPTIONS...]
 
   -d, --debug                  Shows debug information.
@@ -26,7 +26,7 @@ Usage: imgs2pdf [OPTIONS...]
   -o NAME, --output=NAME       Sets the name of the generated PDF.
   -t TITLE, --title=TITLE      Sets the PDF title.
   -v, --version                Shows imgs2pdf version.
-'''
+"""
 
 import os
 from sys import argv, exit
