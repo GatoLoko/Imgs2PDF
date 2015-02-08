@@ -92,7 +92,7 @@ def main():
         pdf.drawImage(canvas.ImageReader(imagen), 0, 0,
                       preserveAspectRatio=True)
         if DEBUG == 1:
-            print sum([sys.getsizeof(o) for o in gc.get_objects()])
+            print(sum([sys.getsizeof(o) for o in gc.get_objects()]))
         # Close the current page and create a new one
         pdf.showPage()
     # Cerramos el PDF
