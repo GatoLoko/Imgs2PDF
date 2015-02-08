@@ -56,7 +56,7 @@ def main():
     global TITULO, SALIDA, DEBUG
     try:
         opcs, args = getopt.getopt(argv[1:], "cdho:t:v", ["debug", "help",
-            "output=", "title=", "version"])
+                                   "output=", "title=", "version"])
     except getopt.GetoptError:
         print(__doc__)
         exit(2)
@@ -90,7 +90,7 @@ def main():
         pdf.setPageSize(imagefile.size)
         # Draw the image in the current page
         pdf.drawImage(canvas.ImageReader(imagen), 0, 0,
-            preserveAspectRatio=True)
+                      preserveAspectRatio=True)
         if DEBUG == 1:
             print sum([sys.getsizeof(o) for o in gc.get_objects()])
         # Close the current page and create a new one
