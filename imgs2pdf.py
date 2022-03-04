@@ -46,8 +46,14 @@ def listaimagenes():
     imagenes = []
     for archivo in os.listdir(os.getcwd()):
         if os.path.isfile(archivo):
-            if os.path.splitext(archivo)[-1] in EXTENSIONES:
+            try:
+                # Check whether it's a supported image format
+                im = Image.open(archivo)
+                # Then add it the list.
                 imagenes.append(archivo)
+            except IOError:
+                # Or skip this file
+                pass
     return sorted(imagenes)
 
 
