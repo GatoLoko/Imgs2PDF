@@ -34,7 +34,7 @@ import getopt
 from PIL import Image
 from reportlab.pdfgen import canvas
 
-__VERSION__ = "3.0"
+__VERSION__ = "3.0.1"
 EXTENSIONES = [
     ".jpg",
     ".gif",
