@@ -35,7 +35,16 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 
 __VERSION__ = "3.0"
-EXTENSIONES = [".jpg", ".gif", ".png", ".jpeg", ".JPG", ".GIF", ".PNG", ".JPEG"]
+EXTENSIONES = [
+    ".jpg",
+    ".gif",
+    ".png",
+    ".jpeg",
+    ".JPG",
+    ".GIF",
+    ".PNG",
+    ".JPEG",
+]
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
 DEBUG = 0
@@ -61,9 +70,11 @@ def main():
     """Script main function."""
     global TITULO, SALIDA, DEBUG
     try:
-        opcs, args = getopt.getopt(argv[1:], "cdho:t:v",
-                                   ["debug", "help", "output=", "title=",
-                                    "version"])
+        opcs, args = getopt.getopt(
+            argv[1:],
+            "cdho:t:v",
+            ["debug", "help", "output=", "title=", "version"],
+        )
     except getopt.GetoptError:
         print(__doc__)
         exit(2)
@@ -96,8 +107,9 @@ def main():
         print("    Resizing page to %s width and %s height" % imagefile.size)
         pdf.setPageSize(imagefile.size)
         # Draw the image in the current page
-        pdf.drawImage(canvas.ImageReader(imagen), 0, 0,
-                      preserveAspectRatio=True)
+        pdf.drawImage(
+            canvas.ImageReader(imagen), 0, 0, preserveAspectRatio=True
+        )
         if DEBUG == 1:
             print(sum([sys.getsizeof(o) for o in gc.get_objects()]))
         # Close the current page and create a new one
