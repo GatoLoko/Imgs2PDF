@@ -48,9 +48,9 @@ def listaimagenes():
         if os.path.isfile(archivo):
             try:
                 # Check whether it's a supported image format
-                im = Image.open(archivo)
-                # Then add it the list.
-                imagenes.append(archivo)
+                if Image.open(archivo):
+                    # Then add it to the list.
+                    imagenes.append(archivo)
             except IOError:
                 # Or skip this file
                 pass
