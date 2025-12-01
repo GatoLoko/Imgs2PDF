@@ -35,16 +35,6 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 
 __VERSION__ = "3.0.1"
-EXTENSIONES = [
-    ".jpg",
-    ".gif",
-    ".png",
-    ".jpeg",
-    ".JPG",
-    ".GIF",
-    ".PNG",
-    ".JPEG",
-]
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
 DEBUG = 0
