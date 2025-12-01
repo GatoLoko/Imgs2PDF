@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: UTF8 -*-
 #
 # Copyright 2009, 2013 Raul Soriano <GatoLoko@gmail.com>
