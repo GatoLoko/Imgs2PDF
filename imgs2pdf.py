@@ -44,7 +44,7 @@ DEBUG: bool = False
 
 def list_image_files():
     """Return a list of image files from the working directory."""
-    images_files = []
+    images_files: list[str] = []
     for file in sorted(Path.cwd().iterdir()):
         if file.is_file():
             with suppress(IOError):
@@ -84,23 +84,26 @@ def main():
             print("imgs2pdf %s" % __VERSION__)
             exit(1)
 
-    image_files = list_image_files()
-    pdf = canvas.Canvas(OUTPUT)
-    pdf.setTitle(TITLE)
+    image_files: list[str] = list_image_files()
+    pdf = canvas.Canvas(filename=OUTPUT)
+    pdf.setTitle(title=TITLE)
 
     for image in image_files:
         print("Proccesing %s" % image)
         # Open the image file
-        imagefile = Image.open(image)
+        imagefile = Image.open(fp=image)
         # Resize each page to fit the image size
         print("    Resizing page to %s width and %s height" % imagefile.size)
         pdf.setPageSize(imagefile.size)
         # Draw the image in the current page
         pdf.drawImage(
-            canvas.ImageReader(image), 0, 0, preserveAspectRatio=True
+            image=canvas.ImageReader(fileName=image),
+            x=0,
+            y=0,
+            preserveAspectRatio=True,
         )
-            print(sum([sys.getsizeof(o) for o in gc.get_objects()]))
         if DEBUG:
+            print(sum([sys.getsizeof(obj=o) for o in gc.get_objects()]))
         # Close the current page and create a new one
         pdf.showPage()
     # Save the generated PDF
