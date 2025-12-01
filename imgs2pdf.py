@@ -28,7 +28,7 @@ Usage: imgs2pdf [OPTIONS...]
   -v, --version                Shows imgs2pdf version.
 """
 
-import os
+from pathlib import Path, PurePath
 from contextlib import suppress
 from importlib import metadata
 from sys import argv, exit
@@ -36,28 +36,28 @@ import getopt
 from PIL import Image
 from reportlab.pdfgen import canvas
 
-TITULO = os.path.split(os.getcwd())[-1]
-SALIDA = "".join([TITULO, ".pdf"])
 __VERSION__: str = metadata.version("imgs2pdf")
+TITLE: str = PurePath(Path.cwd()).parts[-1]
+OUTPUT: str = "".join([TITLE, ".pdf"])
 DEBUG = 0
 
 
-def listaimagenes():
+def list_image_files():
     """Return a list of image files from the working directory."""
-    imagenes = []
-    for archivo in os.listdir(os.getcwd()):
-        if os.path.isfile(archivo):
+    images_files = []
+    for file in sorted(Path.cwd().iterdir()):
+        if file.is_file():
             with suppress(IOError):
                 # Check whether it's a supported image format
-                if Image.open(archivo):
+                if Image.open(file):
                     # Then add it to the list.
-                    imagenes.append(archivo)
-    return sorted(imagenes)
+                    images_files.append(file)
+    return sorted(images_files)
 
 
 def main():
     """Script main function."""
-    global TITULO, SALIDA, DEBUG
+    global TITLE, OUTPUT, DEBUG
     try:
         opcs, args = getopt.getopt(
             argv[1:],
@@ -77,27 +77,27 @@ def main():
             print(__doc__)
             exit(1)
         elif opc in ("-o", "--output"):
-            SALIDA = arg
+            OUTPUT = arg
         elif opc in ("-t", "--title"):
-            TITULO = arg
+            TITLE = arg
         elif opc in ("-v", "--version"):
             print("imgs2pdf %s" % __VERSION__)
             exit(1)
 
-    imagenes = listaimagenes()
-    pdf = canvas.Canvas(SALIDA)
-    pdf.setTitle(TITULO)
+    image_files = list_image_files()
+    pdf = canvas.Canvas(OUTPUT)
+    pdf.setTitle(TITLE)
 
-    for imagen in imagenes:
-        print("Proccesing %s" % imagen)
+    for image in image_files:
+        print("Proccesing %s" % image)
         # Open the image file
-        imagefile = Image.open(imagen)
+        imagefile = Image.open(image)
         # Resize each page to fit the image size
         print("    Resizing page to %s width and %s height" % imagefile.size)
         pdf.setPageSize(imagefile.size)
         # Draw the image in the current page
         pdf.drawImage(
-            canvas.ImageReader(imagen), 0, 0, preserveAspectRatio=True
+            canvas.ImageReader(image), 0, 0, preserveAspectRatio=True
         )
         if DEBUG == 1:
             print(sum([sys.getsizeof(o) for o in gc.get_objects()]))
