@@ -30,14 +30,15 @@ Usage: imgs2pdf [OPTIONS...]
 
 import os
 from contextlib import suppress
+from importlib import metadata
 from sys import argv, exit
 import getopt
 from PIL import Image
 from reportlab.pdfgen import canvas
 
-__VERSION__ = "3.0.1"
 TITULO = os.path.split(os.getcwd())[-1]
 SALIDA = "".join([TITULO, ".pdf"])
+__VERSION__: str = metadata.version("imgs2pdf")
 DEBUG = 0
 
 
