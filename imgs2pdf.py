@@ -39,7 +39,7 @@ from reportlab.pdfgen import canvas
 __VERSION__: str = metadata.version("imgs2pdf")
 TITLE: str = PurePath(Path.cwd()).parts[-1]
 OUTPUT: str = "".join([TITLE, ".pdf"])
-DEBUG = 0
+DEBUG: bool = False
 
 
 def list_image_files():
@@ -70,7 +70,7 @@ def main():
 
     for opc, arg in opcs:
         if opc in ("-d", "--debug"):
-            DEBUG = 1
+            DEBUG = True
             import sys
             import gc
         elif opc in ("-h", "--help"):
@@ -99,8 +99,8 @@ def main():
         pdf.drawImage(
             canvas.ImageReader(image), 0, 0, preserveAspectRatio=True
         )
-        if DEBUG == 1:
             print(sum([sys.getsizeof(o) for o in gc.get_objects()]))
+        if DEBUG:
         # Close the current page and create a new one
         pdf.showPage()
     # Save the generated PDF
