@@ -29,6 +29,7 @@ Usage: imgs2pdf [OPTIONS...]
 """
 
 import os
+from contextlib import suppress
 from sys import argv, exit
 import getopt
 from PIL import Image
@@ -45,14 +46,11 @@ def listaimagenes():
     imagenes = []
     for archivo in os.listdir(os.getcwd()):
         if os.path.isfile(archivo):
-            try:
+            with suppress(IOError):
                 # Check whether it's a supported image format
                 if Image.open(archivo):
                     # Then add it to the list.
                     imagenes.append(archivo)
-            except IOError:
-                # Or skip this file
-                pass
     return sorted(imagenes)
 
 
