@@ -3,7 +3,7 @@ name = "imgs2pdf"
 version = "3.0.1"
 description = "Imgs2PDF is a tool that makes PDF files from collections of independent image files."
 readme = "README.md"
-requires-python = ">=3.4"
+requires-python = ">=3.13"
 dependencies = ["pillow", "reportlab"]
 
 [tool.ruff]
