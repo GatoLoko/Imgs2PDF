@@ -102,7 +102,7 @@ def main():
             print(sum([sys.getsizeof(o) for o in gc.get_objects()]))
         # Close the current page and create a new one
         pdf.showPage()
-    # Cerramos el PDF
+    # Save the generated PDF
     pdf.save()
 
 
