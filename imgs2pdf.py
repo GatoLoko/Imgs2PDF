@@ -18,14 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-"""
+"""Imgs2PDF: converts collections of images to PDF files.
+
 Usage: imgs2pdf [OPTIONS...]
 
-  -d, --debug                  Shows debug information.
-  -h, --help                   Shows this help.
-  -o NAME, --output=NAME       Sets the name of the generated PDF.
-  -t TITLE, --title=TITLE      Sets the PDF title.
-  -v, --version                Shows imgs2pdf version.
+-d, --debug                  Shows debug information.
+-h, --help                   Shows this help.
+-o NAME, --output=NAME       Sets the name of the generated PDF.
+-t TITLE, --title=TITLE      Sets the PDF title.
+-v, --version                Shows imgs2pdf version.
 """
 
 from pathlib import Path, PurePath
