@@ -29,11 +29,13 @@ Usage: imgs2pdf [OPTIONS...]
 -v, --version                Shows imgs2pdf version.
 """
 
-from pathlib import Path, PurePath
+import gc
+import getopt
+import sys
 from contextlib import suppress
 from importlib import metadata
-from sys import argv, exit
-import getopt
+from pathlib import Path, PurePath
+
 from PIL import Image
 from reportlab.pdfgen import canvas
 
@@ -72,8 +74,6 @@ def main():
     for opc, arg in opcs:
         if opc in ("-d", "--debug"):
             DEBUG = True
-            import sys
-            import gc
         elif opc in ("-h", "--help"):
             print(__doc__)
             exit(1)
