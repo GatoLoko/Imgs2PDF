@@ -42,7 +42,6 @@ from reportlab.pdfgen import canvas
 __VERSION__: str = metadata.version("imgs2pdf")
 
 
-def list_image_files():
 class Config:
     """Config.
 
@@ -57,6 +56,7 @@ class Config:
 config = Config
 
 
+def list_image_files() -> list[str]:
     """Return a list of image files from the working directory."""
     images_files: list[str] = []
     for file in sorted(Path.cwd().iterdir()):
@@ -69,33 +69,40 @@ config = Config
     return sorted(images_files)
 
 
-def main():
-    """Script main function."""
+def command_parse():
     try:
-        opcs, args = getopt.getopt(
-            argv[1:],
+        opcs, _args = getopt.getopt(
+            sys.argv[1:],
             "cdho:t:v",
             ["debug", "help", "output=", "title=", "version"],
         )
     except getopt.GetoptError:
         print(__doc__)
-        exit(2)
+        sys.exit(2)
 
     for opc, arg in opcs:
         if opc in ("-d", "--debug"):
             config.debug = True
         elif opc in ("-h", "--help"):
             print(__doc__)
-            exit(1)
+            sys.exit(1)
         elif opc in ("-o", "--output"):
             config.output = arg
         elif opc in ("-t", "--title"):
             config.title = arg
         elif opc in ("-v", "--version"):
-            print("imgs2pdf %s" % __VERSION__)
-            exit(1)
+            print("imgs2pdf {__VERSION__}")
+            sys.exit(1)
+
+
+def main() -> None:
+    """Script main function."""
+    command_parse()
 
     image_files: list[str] = list_image_files()
+    if not image_files:
+        print("No images found!")
+        sys.exit(2)
     pdf = canvas.Canvas(filename=config.output)
     pdf.setTitle(title=config.title)
 
