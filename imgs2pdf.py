@@ -69,7 +69,11 @@ def list_image_files() -> list[str]:
     return sorted(images_files)
 
 
-def command_parse():
+def command_parse() -> None:
+    """Command line parser.
+
+    Handle the command line and set the apropriate variables acordingly
+    """
     try:
         opcs, _args = getopt.getopt(
             sys.argv[1:],
