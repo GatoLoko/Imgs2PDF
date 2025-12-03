@@ -40,12 +40,23 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 
 __VERSION__: str = metadata.version("imgs2pdf")
-TITLE: str = PurePath(Path.cwd()).parts[-1]
-OUTPUT: str = "".join([TITLE, ".pdf"])
-DEBUG: bool = False
 
 
 def list_image_files():
+class Config:
+    """Config.
+
+    Config stores variables that need to be available to multiple functions
+    """
+
+    title: str = PurePath(Path.cwd()).parts[-1]
+    output: str = f"{title}.pdf"
+    debug: bool = False
+
+
+config = Config
+
+
     """Return a list of image files from the working directory."""
     images_files: list[str] = []
     for file in sorted(Path.cwd().iterdir()):
@@ -60,7 +71,6 @@ def list_image_files():
 
 def main():
     """Script main function."""
-    global TITLE, OUTPUT, DEBUG
     try:
         opcs, args = getopt.getopt(
             argv[1:],
@@ -73,21 +83,21 @@ def main():
 
     for opc, arg in opcs:
         if opc in ("-d", "--debug"):
-            DEBUG = True
+            config.debug = True
         elif opc in ("-h", "--help"):
             print(__doc__)
             exit(1)
         elif opc in ("-o", "--output"):
-            OUTPUT = arg
+            config.output = arg
         elif opc in ("-t", "--title"):
-            TITLE = arg
+            config.title = arg
         elif opc in ("-v", "--version"):
             print("imgs2pdf %s" % __VERSION__)
             exit(1)
 
     image_files: list[str] = list_image_files()
-    pdf = canvas.Canvas(filename=OUTPUT)
-    pdf.setTitle(title=TITLE)
+    pdf = canvas.Canvas(filename=config.output)
+    pdf.setTitle(title=config.title)
 
     for image in image_files:
         print("Proccesing %s" % image)
@@ -103,7 +113,7 @@ def main():
             y=0,
             preserveAspectRatio=True,
         )
-        if DEBUG:
+        if config.debug:
             print(sum([sys.getsizeof(obj=o) for o in gc.get_objects()]))
         # Close the current page and create a new one
         pdf.showPage()
