@@ -107,11 +107,12 @@ def main() -> None:
     pdf.setTitle(title=config.title)
 
     for image in image_files:
-        print("Proccesing %s" % image)
+        print("Proccesing {image}")
         # Open the image file
         imagefile = Image.open(fp=image)
         # Resize each page to fit the image size
-        print("    Resizing page to %s width and %s height" % imagefile.size)
+        width, height = imagefile.size
+        print(f"    Resizing page to {width} width and {height} height")
         pdf.setPageSize(imagefile.size)
         # Draw the image in the current page
         pdf.drawImage(
